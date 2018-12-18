@@ -1,0 +1,20 @@
+{
+  "name": "rest-shop",
+  "version": "1.0.0",
+  "description": "A node restful api project (rest node shop)",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [
+    "shop",
+    "nodejs",
+    "restApi"
+  ],
+  "author": "Ranajit Chandra",
+  "license": "ISC",
+  "dependencies": {
+    "body-parser": "^1.18.3",
+    "express": "^4.16.4"
+  }
+}

@@ -7,10 +7,24 @@
 
  router.get('/', function(req, res, next){
    Product.find().
+   select("name price _id").
    exec().
    then(function(alldata){
-     console.log(alldata);
-     res.status(200).json(alldata)
+     const response = {
+       count : alldata.length,
+       data: alldata.map(function(alldata){
+        return { name: alldata.name,
+         price: alldata.price,
+         _id: alldata._id,
+         request:{
+           type:'get',
+           url:'localHost:3000/products/' + alldata._id
+         }
+        }
+       })
+     }
+     console.log(response);
+     res.status(200).json(response)
 
    }).catch(function(error){
      console.log(error);
@@ -30,12 +44,20 @@
      console.log(result);
      res.status(201).json({
        message: 'post request from products route',
-       products: result
+       products: {
+         name: result.name,
+         price: result.price,
+         _id: result._id,
+         request:{
+           type: 'get',
+           url:'localHost:3000/products/'+ result._id
+         }
+       }
      })
-   }).catch(function error(){
-     console.log('error');
+   }).catch(function (error){
+     console.log(error);
      res.status(500).json({
-       message: 'error'
+       error: error.message
      })
 
    })
@@ -44,12 +66,23 @@
  router.get('/:productID', function(req, res, next){
    const ID = req.params.productID
    Product.findById(ID).
+   select('name price _id').
    exec().
    then( function(data)  {
+     const resdata = {
+       count: data.length,
+       Fdata: {
+
+           name: data.name,
+           price:data.price,
+           _id: data._id
+         }
+       }
+
      console.log(data);
      res.status(200).json({
-       dataone : data,
-       id: req.params
+       dataone : resdata,
+
      })
    }).
    catch(function(error) {
@@ -61,11 +94,23 @@
  })
 
 
- router.patch('/', function(req, res, next){
-   res.status(200).json({
-     message: 'patch request from products route'
-   })
- })
+router.patch('/:id', function(req, res, next){
+  const ID = req.params.id
+  const updateprod = {}
+  for(const ops of req.body){
+    updateprod[ops.prop] = ops.value
+  }
+  Product.update({_id : ID}, updateprod).
+  exec().
+  then(function(result){
+    console.log(result);
+    res.status(200).json(result)
+  }).
+  catch(function(error){
+    console.log(error);
+    res.status(500).json({error:err})
+  })
+})
 
  router.delete('/:id', function(req, res, next){
    const ID = req.params.id

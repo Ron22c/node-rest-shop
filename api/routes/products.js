@@ -12,11 +12,25 @@
      cb(null, new Date().toISOString()+ file.originalname)
    }
  })
- const upload = multer({storage: storage})
+ const filetype = function(req, file, cb){
+   if(file.mimetype === 'image/jpeg' || file.mimetype === 'image/png'){
+     cb(null, true)
+   }
+   else{
+     cb(null, false)
+   }
+ }
+ const upload = multer({
+   storage: storage,
+   limits:{
+     filesize: 1024*1024*5
+   },
+   fileFilter:filetype
+ })
 
  router.get('/', function(req, res, next){
    Product.find().
-   select("name price _id").
+   select("name price _id ProductImage").
    exec().
    then(function(alldata){
      const response = {
@@ -25,6 +39,7 @@
         return { name: alldata.name,
          price: alldata.price,
          _id: alldata._id,
+         ProductImage: 'localHost:3000/' + alldata.ProductImage,
          request:{
            type:'get',
            url:'localHost:3000/products/' + alldata._id
@@ -48,7 +63,8 @@
    const product = new Product({
      _id : mongoose.Types.ObjectId(),
      name: req.body.name,
-     price: req.body.price
+     price: req.body.price,
+     ProductImage:req.file.path
    })
    product.save().then(function (result){
      console.log(result);
@@ -58,6 +74,7 @@
          name: result.name,
          price: result.price,
          _id: result._id,
+         ProductImage: 'localHost:3000/' + result.ProductImage,
          request:{
            type: 'get',
            url:'localHost:3000/products/'+ result._id
@@ -76,7 +93,7 @@
  router.get('/:productID', function(req, res, next){
    const ID = req.params.productID
    Product.findById(ID).
-   select('name price _id').
+   select('name price _id ProductImage').
    exec().
    then( function(data)  {
      const resdata = {
@@ -85,7 +102,8 @@
 
            name: data.name,
            price:data.price,
-           _id: data._id
+           _id: data._id,
+           ProductImage: 'localHost:3000/' + data.ProductImage
          }
        }
 

@@ -14,8 +14,10 @@
   "author": "Ranajit Chandra",
   "license": "ISC",
   "dependencies": {
+    "bcrypt": "^3.0.2",
     "body-parser": "^1.18.3",
     "express": "^4.16.4",
+    "jsonwebtoken": "^8.4.0",
     "mongoose": "^5.4.0",
     "multer": "^1.4.1"
   }

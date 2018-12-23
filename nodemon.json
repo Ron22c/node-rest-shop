@@ -1,5 +1,6 @@
 {
   "env": {
-    "pass" : "ranajit"
+    "pass" : "ranajit",
+    "jwt_key" : "secret"
   }
 }

@@ -1,2 +1,4 @@
 # node-rest-shop
-Rest API for a shopping website
+Rest API for a shopping website::
+
+  $ git upload

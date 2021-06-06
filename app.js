@@ -28,7 +28,7 @@ app.use('/products', productRoutes)
 app.use('/orders', orderRoutes)
 app.use('/users', userRoutes)
 
-mongeese.connect('mongodb://ranajit:ranajit@node-rest-shop-shard-00-00-yt2hx.mongodb.net:27017,node-rest-shop-shard-00-01-yt2hx.mongodb.net:27017,node-rest-shop-shard-00-02-yt2hx.mongodb.net:27017/test?ssl=true&replicaSet=node-rest-shop-shard-0&authSource=admin&retryWrites=true',
+mongeese.connect('mongodb://uID:pass@node-rest-shop-shard-00-00-yt2hx.mongodb.net:27017,node-rest-shop-shard-00-01-yt2hx.mongodb.net:27017,node-rest-shop-shard-00-02-yt2hx.mongodb.net:27017/test?ssl=true&replicaSet=node-rest-shop-shard-0&authSource=admin&retryWrites=true',
 { useNewUrlParser: true })
 
 app.use(function(req, res, next){
